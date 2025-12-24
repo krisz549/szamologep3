@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <title>Webes számológép</title>
+    <style>
+        body {
+            font-family: Arial;
+            background: #111;
+            color: white;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input, select, button {
+            padding: 10px;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Webes számológép</h1>
+
+    <p>Írj be számokat vesszővel elválasztva:</p>
+    <input id="numbers" placeholder="pl.: 5, 10, 3">
+
+    <br>
+
+    <select id="operation">
+        <option value="+">Összeadás</option>
+        <option value="-">Kivonás</option>
+        <option value="*">Szorzás</option>
+        <option value="/">Osztás</option>
+    </select>
+
+    <br><br>
+
+    <button onclick="szamol()">Számol</button>
+
+    <h2 id="result"></h2>
+<script>
+        function szamol() {
+            let input = document.getElementById("numbers").value;
+            let muvelet = document.getElementById("operation").value;
+
+            let szamok = input.split(",").map(Number);
+
+            if (szamok.some(isNaN)) {
+                document.getElementById("result").innerText = "Hiba: nem szám!";
+                return;
+            }
+
+            let eredmeny = szamok[0];
+
+            for (let i = 1; i < szamok.length; i++) {
+                let n = szamok[i];
+
+                if (muvelet === "+") eredmeny += n;
+                else if (muvelet === "-") eredmeny -= n;
+                else if (muvelet === "*") eredmeny *= n;
+                else if (muvelet === "/") {
+                    if (n === 0) {
+                        document.getElementById("result").innerText =
+                            "Nullával nem lehet osztani!";
+                        return;
+                    }
+                    eredmeny /= n;
+                }
+            }
+
+            document.getElementById("result").innerText =
+                "Eredmény: " + eredmeny;
+        }
+    </script>
+
+</body>
+</html>
